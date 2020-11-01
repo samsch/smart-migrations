@@ -1,0 +1,21 @@
+version: '3.6'
+services:
+  datastore:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: testuser
+      POSTGRES_PASSWORD: testuser
+      POSTGRES_DB: testuser
+    volumes:
+      - datastoreData:/var/lib/postgresql/data
+    ports:
+      - '54326:5432'
+    networks:
+      - testing
+
+volumes:
+  datastoreData:
+
+networks:
+  testing:
+    driver: bridge

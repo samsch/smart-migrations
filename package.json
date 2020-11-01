@@ -1,0 +1,26 @@
+{
+  "name": "@samsch/smart-migrations",
+  "version": "0.1.0",
+  "description": "Smart migrations handler for Knex",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Samuel Scheiderich",
+  "license": "0BSD",
+  "devDependencies": {
+    "@samsch/eslint-config-default": "^0.1.0",
+    "knex": "^0.21.10",
+    "pg": "^8.4.2"
+  },
+  "dependencies": {
+    "assure-array": "^1.0.0",
+    "bluebird": "^3.7.2",
+    "string.prototype.replaceall": "^1.0.3"
+  },
+  "files": [
+    "index.js",
+    "migrations.stub.js"
+  ]
+}

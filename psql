@@ -1,0 +1,1 @@
+PGPASSWORD=testuser psql -U testuser -h localhost -p 54326
