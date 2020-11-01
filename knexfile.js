@@ -2,6 +2,8 @@
 
 const path = require('path');
 
+const useBrokenMigrations = Boolean(process.env.USE_BROKEN_MIGRATIONS);
+
 module.exports = {
 	client: 'pg',
 	connection: {
@@ -12,7 +14,10 @@ module.exports = {
 		password: 'testuser',
 	},
 	migrations: {
-		directory: path.resolve(__dirname, 'tests/migrations'),
+		directory: path.resolve(
+			__dirname,
+			useBrokenMigrations ? 'tests/broken-migrations' : 'tests/migrations',
+		),
 		stub: path.resolve(__dirname, 'migrations.stub.js'),
 	},
 };

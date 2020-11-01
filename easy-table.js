@@ -61,6 +61,13 @@ function handleColumnType(knex, table, isFirstRunnable, runnable, fillers) {
 	}
 	const [callable, ...args] = runnable.split(':');
 	const parsedArguments = args.map(arg => parseArgument(knex, arg, fillers));
+	if (!table[callable]) {
+		throw new Error(
+			`Column type or definition must be function name on Knex table builer. Received: ${JSON.stringify(
+				callable,
+			)}`,
+		);
+	}
 	if (isFirstRunnable) {
 		return table[callable](
 			fillers.columnName,
@@ -79,8 +86,11 @@ module.exports = function easyTable(knex, definition, table, tableName) {
 		}
 		const runnables = getRunnables(rawColumnData);
 		runnables.reduce((columnBuilder, runnable, index) => {
-			if (index !== 1 && typeof runnables[0] === 'function') {
-				throw new Error('Custom column function did not return table builder!');
+			if (!columnBuilder && typeof runnables[index - 1] === 'function') {
+				throw new Error(
+					`Custom column function did not return table builder!
+TableName: ${tableName}, ColumnName: ${columnName}`,
+				);
 			}
 			return handleColumnType(knex, columnBuilder, index === 0, runnable, {
 				tableName,

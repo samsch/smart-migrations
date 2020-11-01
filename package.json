@@ -1,6 +1,6 @@
 {
   "name": "@samsch/smart-migrations",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Smart migrations handler for Knex",
   "main": "index.js",
   "scripts": {
@@ -11,8 +11,12 @@
   "license": "0BSD",
   "devDependencies": {
     "@samsch/eslint-config-default": "^0.1.0",
+    "blue-tape": "^1.0.0",
     "knex": "^0.21.10",
-    "pg": "^8.4.2"
+    "nodemon": "^2.0.6",
+    "pg": "^8.4.2",
+    "tap-spec": "^5.0.0",
+    "tape": "^5.0.1"
   },
   "dependencies": {
     "assure-array": "^1.0.0",
@@ -21,6 +25,9 @@
   },
   "files": [
     "index.js",
-    "migrations.stub.js"
+		"migrations.stub.js",
+		"easy-table.js",
+		"column-types.js",
+		"timestamps.js"
   ]
 }

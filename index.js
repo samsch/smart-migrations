@@ -160,7 +160,7 @@ All tables passed to tables in a migration object are expected to be created.`,
 						if (expressedDropTable && expressedDropTable[1]) {
 							const tableName = expressedDropTable[1];
 							if (!tableNames.includes(tableName)) {
-								let message = `A table was dropped with called with an unexpected table name.
+								let message = `A table was dropped with an unexpected table name.
 Migration index: ${tableIndex} for tables: ["${tableNames.join('", "')}"]`;
 								if (tableNames.length) {
 									message += `
