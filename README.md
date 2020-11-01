@@ -35,14 +35,14 @@ Example stub with big int identity column
 const { migrator, types } = require('@samsch/smart-migrations');
 
 module.exports = migrator([
-	{
-		tables: '<table-name>',
-		easyTable: {
-			id: types.id_bigint,
-			
-			...types.timestamps(),
-		},
-	}
+  {
+    tables: '<table-name>',
+    easyTable: {
+      id: types.id_bigint,
+      
+      ...types.timestamps(),
+    },
+  }
 ]);
 ```
 
@@ -69,8 +69,8 @@ A string will be split into "runnables" on `|` characters. Providing an array of
 These two are equivalent:
 ```js
 {
-	column1: 'integer|references:users.id',
-	column2: ['integer', 'references:users.id'],
+  column1: 'integer|references:users.id',
+  column2: ['integer', 'references:users.id'],
 }
 ```
 
@@ -87,23 +87,23 @@ Things that are not parsed include literally everything else. Numbers are not pa
 Some examples of equivalent knex column builder calls.
 ```js
 {
-	id: 'increments',
+  id: 'increments',
 }
 table.increments('id').notNullable();
 
 {
-	user_id: 'integer|references:users.id|nullable',
+  user_id: 'integer|references:users.id|nullable',
 }
 table.integer('user_id').notNullable().references('users.id').nullable();
 // the notNullable() is overwritten by the later nullable() call
 
 {
-	path: 'specificType:ltree|unique',
+  path: 'specificType:ltree|unique',
 }
 table.specificType('path', 'ltree').notNullable().unique();
 
 {
-	created_at: 'timestamp|defaultTo:raw(CURRENT_TIMESTAMP)'
+  created_at: 'timestamp|defaultTo:raw(CURRENT_TIMESTAMP)'
 }
 table.timestamp('created_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
 ```
@@ -116,11 +116,11 @@ Function column values can also be used for table operations which do not create
 
 ```js
 {
-	user_id: 'integer|references:users.id',
-	hobby_id: 'integer|references:hobbies.id',
-	extra: table => {
-		table.unqiue(['user_id', 'hobby_id']);
-	},
+  user_id: 'integer|references:users.id',
+  hobby_id: 'integer|references:hobbies.id',
+  extra: table => {
+    table.unqiue(['user_id', 'hobby_id']);
+  },
 }
 ```
 
@@ -129,9 +129,9 @@ The convention I've followed so far is to do any of these "extra" non-column cre
 You can of course define columns with functions normally too:
 ```js
 {
-	id: (table, name) => {
-		return table.increments('name').notNullable();
-	},
+  id: (table, name) => {
+    return table.increments('name').notNullable();
+  },
 }
 ```
 Just don't forget to use `notNullable` in those cases, at it can't be added by default for function columns.
@@ -144,22 +144,22 @@ You can define `up` and `down` as function properties in the sub-migration as we
 
 ```js
 {
-	tables: ['users', 'posts'],
-	up: async knex => {
-		await knex.schema.createTable('users', table => {
-			table.increments('id');
-			table.text('name').notNullable();
-		});
-		await knex.schema.createTable('posts', table => {
-			table.increments('id');
-			table.integer('user_id').reference('users.id').notNullable();
-			table.text('body').notNullable();
-		});
-	},
-	down: async knex => {
-		await knex.schema.dropTable('posts');
-		await knex.schema.dropTable('users');
-	},
+  tables: ['users', 'posts'],
+  up: async knex => {
+    await knex.schema.createTable('users', table => {
+      table.increments('id');
+      table.text('name').notNullable();
+    });
+    await knex.schema.createTable('posts', table => {
+      table.increments('id');
+      table.integer('user_id').reference('users.id').notNullable();
+      table.text('body').notNullable();
+    });
+  },
+  down: async knex => {
+    await knex.schema.dropTable('posts');
+    await knex.schema.dropTable('users');
+  },
 }
 ```
 
@@ -177,18 +177,18 @@ Finally, if you are not creating or dropping any tables in a sub-migration, you 
 
 ```js
 {
-	tables: [],
-	up: async knex => {
-		await knex.raw(`
+  tables: [],
+  up: async knex => {
+    await knex.raw(`
 CREATE FUNCTION raise_exception() RETURNS trigger AS $$
 BEGIN
-	RAISE EXCEPTION 'May not update created_at timestamps - on table %', TG_TABLE_NAME;
-	END;
+  RAISE EXCEPTION 'May not update created_at timestamps - on table %', TG_TABLE_NAME;
+  END;
 $$ LANGUAGE plpgsql;`);
-	},
-	down: async knex => {
-		await knex.raw('DROP FUNCTION raise_exception;');
-	},
+  },
+  down: async knex => {
+    await knex.raw('DROP FUNCTION raise_exception;');
+  },
 }
 ```
 
@@ -204,13 +204,13 @@ It's really easy to make generic column helpers for columns that you use frequen
 const id = 'uuid|primary|defaultTo:raw(uuid_generate_v4())';
 
 function foreign(foreignTable) {
-	return `uuid|references:${foreignTable}.id`;
+  return `uuid|references:${foreignTable}.id`;
 }
 
 // migrator
 {
-	id,
-	user_id: foreign('users'),
+  id,
+  user_id: foreign('users'),
 }
 ```
 
@@ -220,12 +220,12 @@ There are even a couple built-in column helpers. (These are all very PostgreSQL 
 const { migrator, types } = require('@samsch/smart-migrations');
 
 {
-	id1: types.id_bigint, // big int identity column
-	id2: types.id_ing, // int identity column
-	id3: types.id_uuid, // uuid with default generation. Requires uuid extension enabled.
-	foreign1_id: types.bigint_ref('foreign1.id'), // easy references columns, can be chained with 'nullable'
-	foreign2_id: types.int_ref('foreign2.id'), // Check out the source code in column-types.js
-	...types.timestamps(), // Gonna need a proper explainer for this one. Check it out below!
+  id1: types.id_bigint, // big int identity column
+  id2: types.id_ing, // int identity column
+  id3: types.id_uuid, // uuid with default generation. Requires uuid extension enabled.
+  foreign1_id: types.bigint_ref('foreign1.id'), // easy references columns, can be chained with 'nullable'
+  foreign2_id: types.int_ref('foreign2.id'), // Check out the source code in column-types.js
+  ...types.timestamps(), // Gonna need a proper explainer for this one. Check it out below!
 }
 ```
 
@@ -241,20 +241,20 @@ It requires a function be defined first. Make this a migration in your project b
 const { migrator, types } = require('@samsch/smart-migrations');
 
 module.exports = migrator([
-	{
-		tables: [],
-		up: async knex => {
-			await knex.raw(`
+  {
+    tables: [],
+    up: async knex => {
+      await knex.raw(`
 CREATE FUNCTION raise_exception() RETURNS trigger AS $$
 BEGIN
-	RAISE EXCEPTION 'May not update created_at timestamps - on table %', TG_TABLE_NAME;
+  RAISE EXCEPTION 'May not update created_at timestamps - on table %', TG_TABLE_NAME;
 END;
 $$ LANGUAGE plpgsql;`);
-		},
-		down: async knex => {
-			await knex.raw('DROP FUNCTION raise_exception;');
-		},
-	},
+    },
+    down: async knex => {
+      await knex.raw('DROP FUNCTION raise_exception;');
+    },
+  },
 ]);
 ```
 
