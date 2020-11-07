@@ -1,6 +1,6 @@
 {
   "name": "@samsch/smart-migrations",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Smart migrations handler for Knex",
   "main": "index.js",
   "scripts": {
