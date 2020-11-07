@@ -1,5 +1,8 @@
 # Smart Migrator
 
+[![npm package](https://img.shields.io/npm/v/@samsch/smart-migrations?color=lightblue)](https://www.npmjs.com/package/@samsch/smart-migrations)
+[![Github repo](https://img.shields.io/badge/Github-repo-success)](https://github.com/samsch/smart-migrations)
+
 A tool for making migrations with Knex safer, easier, and smarter!
 
 Built with assumptions for PostgreSQL, not tested elsewhere.
@@ -273,3 +276,11 @@ To avoid conflicts, here's what the function and trigger names that are created 
 `FUNCTION function_on_update_set_timestamp_${tableName}`
 `TRIGGER "trigger_on_update_set_timestamp_${tableName}"`
 ```
+
+## Some credits
+
+Some resources I used as references when creating functionality:
+
+- [Blog post: SQL: PostgreSQL trigger for updating last modified timestamp](https://www.the-art-of-web.com/sql/trigger-update-timestamp/)
+- [PostgreSQL docs, this page on trigger function variables among many others](https://www.postgresql.org/docs/current/plpgsql-trigger.html)
+- [The Knex docs](https://knexjs.org)
