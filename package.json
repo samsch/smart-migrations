@@ -8,8 +8,8 @@
   },
   "keywords": [],
   "author": "Samuel Scheiderich",
-	"license": "0BSD",
-	"repository": "github:samsch/smart-migrations",
+  "license": "0BSD",
+  "repository": "github:samsch/smart-migrations",
   "devDependencies": {
     "@samsch/eslint-config-default": "^0.1.0",
     "blue-tape": "^1.0.0",
