@@ -91,17 +91,21 @@ Some examples of equivalent knex column builder calls.
 ```js
 {
   id: 'increments',
+  id: (table, columnName) => table.increments(columnName).notNullable(),
 }
 table.increments('id').notNullable();
 
 {
   user_id: 'integer|references:users.id|nullable',
+  user_id: ['integer', 'references:users.id', 'nullable'],
+  user_id: ['integer', table => table.references('users.id'), 'nullable'],
 }
 table.integer('user_id').notNullable().references('users.id').nullable();
 // the notNullable() is overwritten by the later nullable() call
 
 {
   path: 'specificType:ltree|unique',
+  path: (table, columnName) => table.specificType('path', 'ltree').unique(),
 }
 table.specificType('path', 'ltree').notNullable().unique();
 
@@ -224,7 +228,7 @@ const { migrator, types } = require('@samsch/smart-migrations');
 
 {
   id1: types.id_bigint, // big int identity column
-  id2: types.id_ing, // int identity column
+  id2: types.id_int, // int identity column
   id3: types.id_uuid, // uuid with default generation. Requires uuid extension enabled.
   foreign1_id: types.bigint_ref('foreign1.id'), // easy references columns, can be chained with 'nullable'
   foreign2_id: types.int_ref('foreign2.id'), // Check out the source code in column-types.js
@@ -267,7 +271,7 @@ It also uses some backhanded magic to attach two BEFORE UPDATE triggers to the t
 
 > The magic is really just an extra column that starts with a `$`, signally special handling. This is *not* part of the public api, and subject to change. Don't use column names that start with `$`.
 
-So... use `...types.timestamps()` if you never want to worry about forgetting to updated the updated_at column ever again.
+So... use `...types.timestamps()` if you never want to worry about forgetting to update the updated_at column ever again.
 
 To avoid conflicts, here's what the function and trigger names that are created are called:
 
